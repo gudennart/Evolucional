@@ -452,6 +452,7 @@ window.onload = function () {
             label.setAttribute('for', 'Degree' + degree.id);
             label.textContent = degree.name;
             listitem.appendChild(label);
+            
         }
 
 
