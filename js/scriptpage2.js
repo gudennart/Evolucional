@@ -381,6 +381,7 @@ window.onload = function () {
     }
 
     function saveRelationship() {
+
         let lastId = relations[relations.length - 1].id;
 
         let newRelationship = {
@@ -413,7 +414,7 @@ window.onload = function () {
             };
             for (let c = 1; c <= arclasses.length; c++) {
                 let degree = document.getElementById(d + "-" + c);
-                if (degree.checked){
+                if (degree.checked) {
 
                     var newClass = {
                         classId: c
@@ -428,8 +429,13 @@ window.onload = function () {
                 auxINS = false
             }
         }
-        relations.push(newRelationship);
-        localStorage.setItem("relations", JSON.stringify(relations));
+        if (teacherlist && matterList && (auxINS == false)) {
+            relations.push(newRelationship);
+            localStorage.setItem("relations", JSON.stringify(relations));
+            location.reload();
+        }else{
+            console.warn('Dados insuficientes para cadastro');
+        }
     }
 
 
@@ -452,7 +458,7 @@ window.onload = function () {
             label.setAttribute('for', 'Degree' + degree.id);
             label.textContent = degree.name;
             listitem.appendChild(label);
-            
+
         }
 
 
@@ -514,12 +520,16 @@ window.onload = function () {
             headForm.setAttribute('class', 'form-head');
             newForm.appendChild(headForm);
 
+            let teachwrapper = document.createElement('div');
+            teachwrapper.setAttribute('class', 'tmwrapper');
+            headForm.appendChild(teachwrapper);
+
             let titleTeacher = document.createElement('h3');
             titleTeacher.textContent = "Mestre: "
-            headForm.appendChild(titleTeacher);
+            teachwrapper.appendChild(titleTeacher);
 
             let listTeachers = document.createElement('ul');
-            headForm.appendChild(listTeachers);
+            teachwrapper.appendChild(listTeachers);
 
             for (let l = 1; l <= teachers.length; l++) {
 
@@ -537,13 +547,16 @@ window.onload = function () {
                 iTeacher.appendChild(label);
             }
 
+            let matterwrapper = document.createElement('div');
+            matterwrapper.setAttribute('class', 'tmwrapper');
+            headForm.appendChild(matterwrapper);
 
             let titleMatter = document.createElement('h3');
             titleMatter.textContent = "Disciplina: "
-            headForm.appendChild(titleMatter);
+            matterwrapper.appendChild(titleMatter);
 
             let listMatters = document.createElement('ul');
-            headForm.appendChild(listMatters);
+            matterwrapper.appendChild(listMatters);
 
             for (let i = 1; i <= matters.length; i++) {
 
@@ -561,13 +574,17 @@ window.onload = function () {
                 iMatter.appendChild(label);
             }
 
+            let classwrapper = document.createElement('div');
+            classwrapper.setAttribute('class', 'classwrapper');
+            newForm.appendChild(classwrapper);
+
             let titleClasses = document.createElement('h3');
             titleClasses.textContent = "Classes por Turma: "
-            headForm.appendChild(titleClasses);
+            classwrapper.appendChild(titleClasses);
 
             let gridForm = document.createElement('div');
             gridForm.setAttribute('class', 'grid-form');
-            newForm.appendChild(gridForm);
+            classwrapper.appendChild(gridForm);
 
             let listDegree = document.createElement('ul');
             gridForm.appendChild(listDegree);
@@ -581,8 +598,12 @@ window.onload = function () {
                 degreeTitle.textContent = getDegree(j);
                 degreeItem.appendChild(degreeTitle);
 
+                let checkwrapper = document.createElement('div');
+                checkwrapper.setAttribute('class', 'checkwrapper');
+                degreeItem.appendChild(checkwrapper);
+
                 let listClass = document.createElement('ul');
-                degreeItem.appendChild(listClass);
+                checkwrapper.appendChild(listClass);
 
                 for (let k = 1; k <= arclasses.length; k++) {
 
@@ -605,7 +626,6 @@ window.onload = function () {
 
             confirmationButton.onclick = () => {
                 saveRelationship();
-                location.reload();
             }
         }, false);
 
