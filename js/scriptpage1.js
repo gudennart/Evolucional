@@ -350,7 +350,7 @@ window.onload = function () {
 
             let lastId = students[students.length - 1].id;
 
-            for (let i = 1; i <= 200; i++) {
+            for (let i = 1; i <= 300; i++) {
                 let newstudent = new Object();
 
                 newstudent.id = lastId + i;
