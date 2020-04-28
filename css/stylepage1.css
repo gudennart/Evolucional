@@ -26,13 +26,24 @@ body {
     color: #09a5df;
     display: block;
     height: 70px;
+    position: relative;
+}
+.container .head a{
+    margin-left: 390px;
+    margin-top: 15px;
+    display: inline-block;
+    color: #09a5df;
 }
 .container .head h1{
-    float: right;
+    position: absolute;
+    top: 10;
+    right: 0;
     margin: 10px 40px;
 }
 .container .head img{
-    float: left;
+    position: absolute;
+    top: 10;
+    left: 0;
     height: 50px;
     width: auto;
     margin-left: 40px;
