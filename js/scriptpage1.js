@@ -365,6 +365,32 @@ window.onload = function () {
             location.reload();
         });
 
+        let graph = []
+
+        degrees.forEach(degree => {
+            let data = {
+                x: degree.name,
+                value: 0
+            };
+            students.forEach(element => {
+                if (element.degreeId == degree.id) {
+                    data.value++
+                }
+            });
+            graph.push(data);
+        });
+
+
+        var chart = anychart.pie(graph);
+        chart.innerRadius("30%");
+        chart.container("container");
+        chart.draw();
+
+        console.log('%c Legal né, gostei também, me contrata', 'Color: #09a5df; font-family: sans-serif; font-size: 16px');
+        console.log('%c POR FAVOR', 'color: red; font-size: 22px; font-family: sans-serif')
+
     }, 200);
 
 };
+
+// Parabéns, você chegou ao final do código, agora já pode me contratar :D 
