@@ -383,43 +383,17 @@ window.onload = function () {
     function saveRelationship() {
         let lastId = relations[relations.length - 1].id;
 
-        let  = {
-            id: lastId+1,
-            teacherId: "",
-            matterId: "",
-            degrees: [{
-                degreeId:"teste",
-                classes: {
-                    classId:"class"
-                }
-            }]
-        };
         let newRelationship = {
-            id: lastId+1,
-            teacherId:"",
+            id: lastId + 1,
+            teacherId: "",
             matterId: 'teste',
-            degrees: [{
-                degreeid:"",
-                classes: [{
-                    classId:""
-                }]
-            }]
+            degrees: []
         };
-        let newDegree = {
-            degreeid:"",
-            classes: [{
-                classId:""
-            }]
-        };
-        let newClass ={
-            classId:""
-        };
-        console.log(newRelationship);
         let teacherlist = document.getElementsByName('teacherRadio');
 
         for (let t = 0; t < teacherlist.length; t++) {
             if (teacherlist[t].checked) {
-                let teacherId = t + 1;
+                newRelationship.teacherId = t + 1;
             };
         }
 
@@ -427,26 +401,35 @@ window.onload = function () {
 
         for (let m = 0; m < matterList.length; m++) {
             if (matterList[m].checked) {
-                let matterId = m + 1;
+                newRelationship.matterId = m + 1;
             };
         }
 
-        let listDegree =[];
-        for (let d = 0; d < degrees.length; d++) {
-            for (let c = 0; c < arclasses.length; c++) {
-                let degree = document.getElementById((d + 1) + "-" + (c + 1));
-                if (degree.checked) {
-                    listDegree.push(degree);
+        var auxINS;
+        for (let d = 1; d <= degrees.length; d++) {
+            var newDegree = {
+                degreeId: d,
+                classes: []
+            };
+            for (let c = 1; c <= arclasses.length; c++) {
+                let degree = document.getElementById(d + "-" + c);
+                if (degree.checked){
+
+                    var newClass = {
+                        classId: c
+                    };
+
+                    auxINS = true;
+                    newDegree.classes.push(newClass);
                 }
             }
+            if (auxINS) {
+                newRelationship.degrees.push(newDegree);
+                auxINS = false
+            }
         }
-        console.log(newRelationship);
-
-        /* -------- To Do --------
-
-        Realizar o a verificação de cada classe que esteja checkada, populando inicialmente o objeto newClass, o inserindo em newDegree (append) e informando o valor de degreeId, e então o inserindo em newRelationship, inserindo esse valor no array Relations (relação de relacionamentos), e atualizar esse valor para o localStorage
-
-        */
+        relations.push(newRelationship);
+        localStorage.setItem("relations", JSON.stringify(relations));
     }
 
 
@@ -621,6 +604,7 @@ window.onload = function () {
 
             confirmationButton.onclick = () => {
                 saveRelationship();
+                location.reload();
             }
         }, false);
 
